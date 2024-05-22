@@ -1,0 +1,119 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner ler = new Scanner(System.in);
+        List<Empregado> empregados = new ArrayList<>();
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Criar novo empregado");
+            System.out.println("2. Promover empregado");
+            System.out.println("3. Aumentar salário do empregado");
+            System.out.println("4. Demitir empregado");
+            System.out.println("5. Fazer aniversário do empregado");
+            System.out.println("6. Mostrar detalhes dos empregados");
+            System.out.println("7. Sair");
+            System.out.print("Escolha uma opção: ");
+            int opcao = ler.nextInt();
+            ler.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    criarEmpregado(ler, empregados);
+                    break;
+                case 2:
+                    promoverEmpregado(ler, empregados);
+                    break;
+                case 3:
+                    aumentarSalarioEmpregado(ler, empregados);
+                    break;
+                case 4:
+                    demitirEmpregado(ler, empregados);
+                    break;
+                case 5:
+                    fazerAniversarioEmpregado(ler, empregados);
+                    break;
+                case 6:
+                    mostrarDetalhesEmpregado(ler, empregados);
+                    break;
+                case 7:
+                    System.out.println("Saindo...");
+                    return;
+                default:
+                    System.out.println("Opção inválida");
+            }
+        }
+    }
+
+    private static void criarEmpregado(Scanner ler, List<Empregado> empregados) {
+        System.out.print("Nome: ");
+        String nome = ler.nextLine();
+        System.out.print("Idade: ");
+        int idade = ler.nextInt();
+        System.out.print("Salario: ");
+        double salario = ler.nextDouble();
+        ler.nextLine(); 
+        Empregado novoEmpregado = new Empregado(nome, idade, salario);
+        empregados.add(novoEmpregado);
+        System.out.println("Empregado criado com sucesso.");
+    }
+
+    private static void promoverEmpregado(Scanner ler, List<Empregado> empregados) {
+        Empregado emp = buscarEmpregadoPorNome(ler, empregados);
+        if (emp != null) {
+            emp.promover();
+        }
+    }
+
+    private static void aumentarSalarioEmpregado(Scanner ler, List<Empregado> empregados) {
+        Empregado emp = buscarEmpregadoPorNome(ler, empregados);
+        if (emp != null) {
+            System.out.print("Digite o percentual do aumento: ");
+            double percentual = ler.nextDouble();
+            ler.nextLine(); // Limpar o buffer
+            emp.aumentarSalario(percentual);
+        }
+    }
+
+    private static void demitirEmpregado(Scanner ler, List<Empregado> empregados) {
+        Empregado emp = buscarEmpregadoPorNome(ler, empregados);
+        if (emp != null) {
+            System.out.println("1. Justa causa");
+            System.out.println("2. Decisão do empregador");
+            System.out.println("3. Aposentadoria");
+            System.out.print("Escolha o motivo: ");
+            int opcao = ler.nextInt();
+            ler.nextLine();
+            emp.demitir(opcao);
+        }
+    }
+
+    private static void fazerAniversarioEmpregado(Scanner ler, List<Empregado> empregados) {
+        Empregado emp = buscarEmpregadoPorNome(ler, empregados);
+        if (emp != null) {
+            emp.fazerAniversario();
+        }
+    }
+
+    private static void mostrarDetalhesEmpregado(Scanner ler, List<Empregado> empregados) {
+        for (Empregado emp : empregados) {
+            System.out.println(emp);
+        }
+    }
+
+    private static Empregado buscarEmpregadoPorNome(Scanner ler, List<Empregado> empregados) {
+        System.out.print("Digite o nome do empregado: ");
+        String nome = ler.nextLine();
+        Empregado emp = Empregado.encEmpregado(empregados, nome);
+        if (emp == null) {
+            System.out.println("Empregado não encontrado.");
+        }
+        return emp;
+    }
+}
