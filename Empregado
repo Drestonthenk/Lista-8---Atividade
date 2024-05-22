@@ -1,0 +1,115 @@
+package com.example;
+
+import java.util.List;
+public class Empregado {
+    private String nome;
+    private int idade;
+    private double salario;
+
+    
+    public Empregado(String nome, int idade, double salario) {
+        this.nome = nome;
+        this.idade = idade;
+        this.salario = salario;
+    }
+
+    
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    
+    public void promover() {
+        if (this.idade > 18) {
+            this.aumentarSalario(25);
+            System.out.println("Empregado promovido com sucesso");
+        } else {
+            System.out.println("Empregado não pode ser promovido, idade menor que 18 anos, muito novinho kkkkkkkkkkkkkkkkkkk");
+        }
+    }
+
+    
+    public void aumentarSalario(double percentual) {
+        this.salario += this.salario * (percentual / 100);
+        System.out.println("Salário aumentado com sucesso");
+    }
+
+    
+    public void demitir(int motivo) {
+        String motivoString = "";
+        switch (motivo) {
+            case 1:
+                motivoString = "Justa causa";
+                System.out.println("Empregado demitido por: " + motivoString + ". Cumprir aviso prévio");
+                break;
+            case 2:
+                motivoString = "Decisão do empregador";
+                double multa = this.salario * 0.4;
+                System.out.println("Empregado demitido por: " + motivoString + ". Multa de 40% do salário: R$ " + multa);
+                break;
+            case 3:
+                motivoString = "Aposentadoria";
+                double salarioAposentadoria = calcularSalarioAposentadoria(this.salario);
+                System.out.println("Empregado demitido por: " + motivoString + ". Salário de aposentadoria: R$ " + salarioAposentadoria);
+                break;
+            default:
+                motivoString = "Desconhecido";
+                System.out.println("Empregado demitido por: " + motivoString);
+                break;
+        }
+    }
+
+    // Método auxiliar para calcular salário de aposentadoria
+    private double calcularSalarioAposentadoria(double salario) {
+        if (salario >= 1000 && salario < 2000) {
+            return 1500;
+        } else if (salario >= 2000 && salario < 3000) {
+            return 2500;
+        } else if (salario >= 3000 && salario < 4000) {
+            return 3500;
+        } else if (salario >= 4000) {
+            return 4000;
+        }
+        return 0;
+    }
+
+    
+    public void fazerAniversario() {
+        this.idade++;
+        System.out.println("Feliz aniversário meu nobre(a)! Nova idade: " + this.idade);
+    }
+
+    
+    
+    public String toString() {
+        return "Nome: " + nome + ", Idade: " + idade + ", Salário: " + salario;
+    }
+
+    
+    public static Empregado encEmpregado(List<Empregado> empregados, String nome) {
+        return empregados.stream()
+                .filter(emp -> emp.getNome().equalsIgnoreCase(nome))
+                .findFirst()
+                .orElse(null);
+    }
+}
